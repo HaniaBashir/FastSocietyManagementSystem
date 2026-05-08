@@ -1,0 +1,65 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Build folders
+Debug/
+Release/
+
+# VS Code / Rider
+.vscode/
+.idea/
+
+# NuGet
+packages/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# Test results
+TestResults/
+
+# Publish output
+publish/
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Rider
+*.sln.iml
+
+# SQL local db
+*.dbmdl
+
+# Generated files
+Generated_Code/
+
+# Backup files
+*.bak
+
+# IIS Express
+.vs/config/
+
+# Entity Framework
+*.edmx.diagram
+
+# Visual Studio cache
+*.cache
