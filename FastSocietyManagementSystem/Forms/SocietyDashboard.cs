@@ -5,15 +5,29 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using FastSocietyManagementSystem.Models;
 using FastSocietyManagementSystem.Services;
 
 namespace FastSocietyManagementSystem.Forms
 {
+
+    
     public partial class SocietyDashboard : Form
     {
-        public SocietyDashboard()
+        
+        private readonly User _loggedInUser;
+        private readonly int _societyId;
+        public SocietyDashboard(User user)
         {
             InitializeComponent();
+
+            _loggedInUser = user;
+
+            SocietyService societyService = new SocietyService();
+
+            _societyId = societyService.GetSocietyIdByHeadUserId(
+                _loggedInUser.UserId
+            );
         }
 
         private void LoadMembershipRequests()
@@ -113,19 +127,17 @@ namespace FastSocietyManagementSystem.Forms
     EventArgs e
 )
         {
-            EventManagementForm
-                eventManagementForm =
-                    new EventManagementForm();
+            EventManagementForm eventForm = new EventManagementForm(_societyId);
 
-            eventManagementForm.Show();
+            eventForm.Show();
         }
 
         private void btnManageTasks_Click(object sender, EventArgs e)
         {
-            TaskManagementForm taskManagementForm =
-                new TaskManagementForm();
+            TaskManagementForm taskForm =
+    new TaskManagementForm(_societyId);
 
-            taskManagementForm.Show();
+            taskForm.Show();
         }
     }
 }

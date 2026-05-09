@@ -1,4 +1,7 @@
-﻿namespace FastSocietyManagementSystem.Forms
+﻿
+
+
+namespace FastSocietyManagementSystem.Forms
 {
     partial class SocietyDashboard
     {
@@ -80,7 +83,7 @@
             btnManageEvents.BackgroundImageLayout = ImageLayout.Zoom;
             btnManageEvents.Location = new Point(23, 317);
             btnManageEvents.Name = "btnManageEvents";
-            btnManageEvents.Size = new Size(112, 34);
+            btnManageEvents.Size = new Size(146, 34);
             btnManageEvents.TabIndex = 4;
             btnManageEvents.Text = "Manage Events";
             btnManageEvents.UseVisualStyleBackColor = true;
@@ -88,7 +91,7 @@
             // 
             // btnManageTasks
             // 
-            btnManageTasks.Location = new Point(152, 317);
+            btnManageTasks.Location = new Point(175, 317);
             btnManageTasks.Name = "btnManageTasks";
             btnManageTasks.Size = new Size(133, 34);
             btnManageTasks.TabIndex = 5;
@@ -100,7 +103,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(813, 406);
+            ClientSize = new Size(809, 400);
             Controls.Add(btnManageTasks);
             Controls.Add(btnManageEvents);
             Controls.Add(btnReject);

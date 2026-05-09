@@ -237,11 +237,43 @@ namespace FastSocietyManagementSystem.Forms
                 return;
             }
 
-            int eventId = Convert.ToInt32(dgvPendingEvents.CurrentRow.Cells["EventId"].Value);
+            int eventId = Convert.ToInt32(
+                dgvPendingEvents.CurrentRow.Cells["EventId"].Value
+            );
 
-            new SocietyService().ApproveEvent(eventId);
+            string eventTitle =
+                dgvPendingEvents.CurrentRow.Cells["Title"].Value.ToString()!;
 
-            MessageBox.Show("Event approved.");
+            SocietyService societyService =
+                new SocietyService();
+
+            bool canApprove =
+                societyService.CanAdminApproveEvent(
+                    eventId,
+                    out string validationMessage
+                );
+
+            if (!canApprove)
+            {
+                MessageBox.Show(validationMessage);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"Are you sure you want to approve this event?\n\nEvent: {eventTitle}",
+                "Confirm Event Approval",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+
+            societyService.ApproveEvent(eventId);
+
+            MessageBox.Show("Event approved successfully.");
 
             LoadPendingEvents();
         }
@@ -254,10 +286,15 @@ namespace FastSocietyManagementSystem.Forms
                 return;
             }
 
-            int eventId = Convert.ToInt32(dgvPendingEvents.CurrentRow.Cells["EventId"].Value);
+            int eventId = Convert.ToInt32(
+                dgvPendingEvents.CurrentRow.Cells["EventId"].Value
+            );
+
+            string eventTitle =
+                dgvPendingEvents.CurrentRow.Cells["Title"].Value.ToString()!;
 
             DialogResult result = MessageBox.Show(
-                "Are you sure you want to reject this event?",
+                $"Are you sure you want to reject this event?\n\nEvent: {eventTitle}",
                 "Confirm Event Rejection",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
@@ -268,9 +305,12 @@ namespace FastSocietyManagementSystem.Forms
                 return;
             }
 
-            new SocietyService().RejectEvent(eventId);
+            SocietyService societyService =
+                new SocietyService();
 
-            MessageBox.Show("Event rejected.");
+            societyService.RejectEvent(eventId);
+
+            MessageBox.Show("Event rejected successfully.");
 
             LoadPendingEvents();
         }

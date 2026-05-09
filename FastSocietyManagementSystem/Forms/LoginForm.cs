@@ -67,7 +67,7 @@ namespace FastSocietyManagementSystem.Forms
 
                 if (isSocietyHead)
                 {
-                    SocietyDashboard societyDashboard = new SocietyDashboard();
+                    SocietyDashboard societyDashboard = new SocietyDashboard(user);
                     societyDashboard.Show();
                 }
                 else

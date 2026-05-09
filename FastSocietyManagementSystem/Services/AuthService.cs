@@ -7,6 +7,11 @@ using FastSocietyManagementSystem.Repositories;
 
 namespace FastSocietyManagementSystem.Services
 {
+    /// <summary>
+    /// Handles authentication business logic including
+    /// user registration, duplicate email checking, login validation,
+    /// and inactive account blocking.
+    /// </summary>
     public class AuthService
     {
         private readonly IUserRepository _userRepository;
@@ -16,12 +21,16 @@ namespace FastSocietyManagementSystem.Services
             _userRepository = new UserRepository();
         }
 
+        /// <summary>
+        /// Registers a new user after checking that
+        /// the email address is not already used.
+        /// </summary>
         public bool RegisterUser(
-    string fullName,
-    string email,
-    string password,
-    string role
-)
+            string fullName,
+            string email,
+            string password,
+            string role
+        )
         {
             fullName = fullName.Trim();
             email = email.Trim().ToLower();
@@ -50,7 +59,15 @@ namespace FastSocietyManagementSystem.Services
             return true;
         }
 
-        public User? LoginUser(string email, string password)
+        /// <summary>
+        /// Validates user login credentials.
+        /// Returns null if the user does not exist,
+        /// the account is inactive, or the password is incorrect.
+        /// </summary>
+        public User? LoginUser(
+            string email,
+            string password
+        )
         {
             email = email.Trim().ToLower();
             password = password.Trim();

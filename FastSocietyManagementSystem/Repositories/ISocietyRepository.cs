@@ -25,5 +25,9 @@ namespace FastSocietyManagementSystem.Repositories
         void CancelEvent(int eventId);
 
         void UpdateEventStatus(int eventId, string status);
+
+        int GetSocietyIdByHeadUserId(int userId);
+
+        List<SocietyEvent> GetEventsBySocietyId(int societyId);
     }
 }

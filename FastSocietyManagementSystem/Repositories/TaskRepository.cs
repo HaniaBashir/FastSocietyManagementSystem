@@ -7,6 +7,10 @@ using Microsoft.Data.SqlClient;
 
 namespace FastSocietyManagementSystem.Repositories
 {
+    /// <summary>
+    /// Handles database operations related to society task assignment
+    /// and task retrieval.
+    /// </summary>
     public class TaskRepository : ITaskRepository
     {
         private readonly DatabaseConnection
@@ -18,6 +22,10 @@ namespace FastSocietyManagementSystem.Repositories
                 new DatabaseConnection();
         }
 
+        /// <summary>
+        /// Adds a new task assigned by a society head
+        /// to a selected student.
+        /// </summary>
         public void AddTask(SocietyTask societyTask)
         {
             using SqlConnection connection =
@@ -83,6 +91,10 @@ namespace FastSocietyManagementSystem.Repositories
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves all assigned society tasks.
+        /// Used by society heads to monitor task distribution.
+        /// </summary>
         public List<SocietyTask> GetAllTasks()
         {
             List<SocietyTask> tasks = new();

@@ -85,6 +85,50 @@ namespace FastSocietyManagementSystem.Services
 
             return capacity > 0 && registrationCount >= capacity;
         }
+
+        public bool CanRegisterForEvent(
+    int eventId,
+    out string message
+)
+        {
+            string status =
+                _studentRepository.GetEventStatus(eventId);
+
+            if (status != "Active")
+            {
+                message = "You can only register for approved active events.";
+                return false;
+            }
+
+            DateTime eventDate =
+                _studentRepository.GetEventDate(eventId);
+
+            if (eventDate <= DateTime.Now)
+            {
+                message = "You cannot register for an event that has already passed.";
+                return false;
+            }
+
+            int registrationCount =
+                _studentRepository.GetEventRegistrationCount(eventId);
+
+            int capacity =
+                _studentRepository.GetEventCapacity(eventId);
+
+            if (capacity > 0 && registrationCount >= capacity)
+            {
+                message = "This event is already full.";
+                return false;
+            }
+
+            message = "";
+            return true;
+        }
+
+        public List<Student> GetApprovedMembersBySocietyId(int societyId)
+        {
+            return _studentRepository.GetApprovedMembersBySocietyId(societyId);
+        }
     }
 
 }

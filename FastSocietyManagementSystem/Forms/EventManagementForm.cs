@@ -13,9 +13,13 @@ namespace FastSocietyManagementSystem.Forms
 {
     public partial class EventManagementForm : Form
     {
-        public EventManagementForm()
+        private readonly int _societyId;
+
+        public EventManagementForm(int societyId)
         {
             InitializeComponent();
+
+            _societyId = societyId;
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -91,7 +95,7 @@ namespace FastSocietyManagementSystem.Forms
 
             SocietyEvent societyEvent = new SocietyEvent
             {
-                SocietyId = 1,
+                SocietyId = _societyId,
                 Title = title,
                 Description = description,
                 EventDate = dtpEventDate.Value,

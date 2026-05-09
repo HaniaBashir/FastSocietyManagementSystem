@@ -12,9 +12,13 @@ namespace FastSocietyManagementSystem.Forms
 {
     public partial class TaskManagementForm : Form
     {
-        public TaskManagementForm()
+        private readonly int _societyId;
+
+        public TaskManagementForm(int societyId)
         {
             InitializeComponent();
+
+            _societyId = societyId;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -28,7 +32,7 @@ namespace FastSocietyManagementSystem.Forms
                 new StudentService();
 
             List<Student> students =
-                studentService.GetAllStudents();
+    studentService.GetApprovedMembersBySocietyId(_societyId);
 
             cmbStudents.DataSource = students;
 
@@ -102,7 +106,7 @@ namespace FastSocietyManagementSystem.Forms
             SocietyTask societyTask =
                 new SocietyTask
                 {
-                    SocietyId = 1,
+                    SocietyId = _societyId,
 
                     AssignedToStudentId =
                         selectedStudentId,

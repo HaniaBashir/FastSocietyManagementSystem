@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FastSocietyManagementSystem.Models;
 using FastSocietyManagementSystem.Repositories;
+using System.Linq;
 
 namespace FastSocietyManagementSystem.Services
 {
@@ -86,6 +87,45 @@ namespace FastSocietyManagementSystem.Services
         public void RejectEvent(int eventId)
         {
             _societyRepository.UpdateEventStatus(eventId, "Rejected");
+        }
+
+        public bool CanAdminApproveEvent(
+    int eventId,
+    out string message
+)
+        {
+            List<SocietyEvent> pendingEvents =
+                _societyRepository.GetPendingEvents();
+
+            SocietyEvent? selectedEvent =
+                pendingEvents.FirstOrDefault(
+                    currentEvent => currentEvent.EventId == eventId
+                );
+
+            if (selectedEvent == null)
+            {
+                message = "Only pending events can be approved.";
+                return false;
+            }
+
+            if (selectedEvent.EventDate <= DateTime.Now)
+            {
+                message = "This event date has already passed and cannot be approved.";
+                return false;
+            }
+
+            message = "";
+            return true;
+        }
+
+        public int GetSocietyIdByHeadUserId(int userId)
+        {
+            return _societyRepository.GetSocietyIdByHeadUserId(userId);
+        }
+
+        public List<SocietyEvent> GetEventsBySocietyId(int societyId)
+        {
+            return _societyRepository.GetEventsBySocietyId(societyId);
         }
     }
 }

@@ -45,12 +45,6 @@ namespace FastSocietyManagementSystem.Forms
                 return;
             }
 
-            if (!ValidationHelper.IsValidName(fullName))
-            {
-                MessageBox.Show("Full name must be at least 3 characters.");
-                return;
-            }
-
             if (!ValidationHelper.IsValidEmail(email))
             {
                 MessageBox.Show("Please enter a valid email address.");
@@ -59,7 +53,7 @@ namespace FastSocietyManagementSystem.Forms
 
             if (!ValidationHelper.IsStrongEnoughPassword(password))
             {
-                MessageBox.Show("Password must be at least 6 characters.");
+                MessageBox.Show("Password must be at least 6 characters long.");
                 return;
             }
 
@@ -68,7 +62,7 @@ namespace FastSocietyManagementSystem.Forms
                 $"Name: {fullName}\n" +
                 $"Email: {email}\n" +
                 $"Role: {role}",
-                "Confirm User Registration",
+                "Confirm Registration",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );

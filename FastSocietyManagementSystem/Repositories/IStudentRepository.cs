@@ -26,6 +26,12 @@ namespace FastSocietyManagementSystem.Repositories
         int GetEventRegistrationCount(int eventId);
         int GetEventCapacity(int eventId);
 
+        string GetEventStatus(int eventId);
+
+        DateTime GetEventDate(int eventId);
+
+        List<Student> GetApprovedMembersBySocietyId(int societyId);
+
         void UpdateTaskStatus(
     int taskId,
     string status

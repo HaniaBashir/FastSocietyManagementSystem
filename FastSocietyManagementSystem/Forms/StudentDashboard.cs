@@ -171,6 +171,18 @@ namespace FastSocietyManagementSystem.Forms
                 return;
             }
 
+            bool canRegister =
+    studentService.CanRegisterForEvent(
+        eventId,
+        out string validationMessage
+    );
+
+            if (!canRegister)
+            {
+                MessageBox.Show(validationMessage);
+                return;
+            }
+
             studentService.RegisterForEvent(
                 eventId,
                 studentId

@@ -7,6 +7,10 @@ using System.Text;
 
 namespace FastSocietyManagementSystem.Repositories
 {
+    /// <summary>
+    /// Handles all database operations related to
+    /// society membership requests.
+    /// </summary>
     public class MembershipRepository
         : IMembershipRepository
     {
@@ -19,6 +23,10 @@ namespace FastSocietyManagementSystem.Repositories
                 new DatabaseConnection();
         }
 
+        /// <summary>
+        /// Creates a new membership request
+        /// with default Pending status.
+        /// </summary>
         public void AddMembershipRequest(
             int studentId,
             int societyId
@@ -59,8 +67,12 @@ namespace FastSocietyManagementSystem.Repositories
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves all pending membership requests
+        /// along with student and society names.
+        /// </summary>
         public List<MembershipRequest>
-    GetPendingMembershipRequests()
+            GetPendingMembershipRequests()
         {
             List<MembershipRequest> requests = new();
 
@@ -69,22 +81,22 @@ namespace FastSocietyManagementSystem.Repositories
 
             string query =
                 @"
-        SELECT
-            mr.RequestId,
-            mr.StudentId,
-            mr.SocietyId,
-            mr.Status,
-            u.FullName AS StudentName,
-            s.SocietyName
-        FROM MembershipRequests mr
-        INNER JOIN Students st
-            ON mr.StudentId = st.StudentId
-        INNER JOIN Users u
-            ON st.UserId = u.UserId
-        INNER JOIN Societies s
-            ON mr.SocietyId = s.SocietyId
-        WHERE mr.Status = 'Pending'
-        ";
+                SELECT
+                    mr.RequestId,
+                    mr.StudentId,
+                    mr.SocietyId,
+                    mr.Status,
+                    u.FullName AS StudentName,
+                    s.SocietyName
+                FROM MembershipRequests mr
+                INNER JOIN Students st
+                    ON mr.StudentId = st.StudentId
+                INNER JOIN Users u
+                    ON st.UserId = u.UserId
+                INNER JOIN Societies s
+                    ON mr.SocietyId = s.SocietyId
+                WHERE mr.Status = 'Pending'
+                ";
 
             using SqlCommand command =
                 new SqlCommand(query, connection);
@@ -126,6 +138,10 @@ namespace FastSocietyManagementSystem.Repositories
             return requests;
         }
 
+        /// <summary>
+        /// Updates membership request status
+        /// such as Approved or Rejected.
+        /// </summary>
         public void UpdateMembershipStatus(
             int requestId,
             string status
@@ -136,12 +152,12 @@ namespace FastSocietyManagementSystem.Repositories
 
             string query =
                 @"
-        UPDATE MembershipRequests
-        SET
-            Status = @Status,
-            ReviewedAt = GETDATE()
-        WHERE RequestId = @RequestId
-        ";
+                UPDATE MembershipRequests
+                SET
+                    Status = @Status,
+                    ReviewedAt = GETDATE()
+                WHERE RequestId = @RequestId
+                ";
 
             using SqlCommand command =
                 new SqlCommand(query, connection);
@@ -161,30 +177,50 @@ namespace FastSocietyManagementSystem.Repositories
             command.ExecuteNonQuery();
         }
 
-        public bool IsMembershipRequestExists(int studentId, int societyId)
+        /// <summary>
+        /// Checks whether a student already has
+        /// a pending or approved request for a society.
+        /// 
+        /// Prevents duplicate membership applications.
+        /// </summary>
+        public bool IsMembershipRequestExists(
+            int studentId,
+            int societyId
+        )
         {
-            using SqlConnection connection = _databaseConnection.GetConnection();
+            using SqlConnection connection =
+                _databaseConnection.GetConnection();
 
             string query =
                 @"
-        SELECT COUNT(*)
-        FROM MembershipRequests
-        WHERE StudentId = @StudentId
-          AND SocietyId = @SocietyId
-          AND Status IN ('Pending', 'Approved')
-        ";
+                SELECT COUNT(*)
+                FROM MembershipRequests
+                WHERE StudentId = @StudentId
+                  AND SocietyId = @SocietyId
+                  AND Status IN ('Pending', 'Approved')
+                ";
 
-            using SqlCommand command = new SqlCommand(query, connection);
+            using SqlCommand command =
+                new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("@StudentId", studentId);
-            command.Parameters.AddWithValue("@SocietyId", societyId);
+            command.Parameters.AddWithValue(
+                "@StudentId",
+                studentId
+            );
+
+            command.Parameters.AddWithValue(
+                "@SocietyId",
+                societyId
+            );
 
             connection.Open();
 
-            int count = Convert.ToInt32(command.ExecuteScalar());
+            int count =
+                Convert.ToInt32(
+                    command.ExecuteScalar()
+                );
 
             return count > 0;
         }
-
     }
 }

@@ -6,6 +6,11 @@ using System.Text;
 
 namespace FastSocietyManagementSystem.Services
 {
+    /// <summary>
+    /// Handles business logic related to society memberships
+    /// including applications, approvals, rejections,
+    /// and duplicate membership prevention.
+    /// </summary>
     public class MembershipService
     {
         private readonly IMembershipRepository
@@ -17,6 +22,10 @@ namespace FastSocietyManagementSystem.Services
                 new MembershipRepository();
         }
 
+        /// <summary>
+        /// Submits a membership request for a student
+        /// to join a society.
+        /// </summary>
         public void ApplyForMembership(
             int studentId,
             int societyId
@@ -29,13 +38,20 @@ namespace FastSocietyManagementSystem.Services
                 );
         }
 
+        /// <summary>
+        /// Retrieves all membership requests
+        /// currently waiting for review.
+        /// </summary>
         public List<MembershipRequest>
-    GetPendingMembershipRequests()
+            GetPendingMembershipRequests()
         {
             return _membershipRepository
                 .GetPendingMembershipRequests();
         }
 
+        /// <summary>
+        /// Approves a student's membership request.
+        /// </summary>
         public void ApproveMembership(
             int requestId
         )
@@ -47,6 +63,9 @@ namespace FastSocietyManagementSystem.Services
                 );
         }
 
+        /// <summary>
+        /// Rejects a student's membership request.
+        /// </summary>
         public void RejectMembership(
             int requestId
         )
@@ -58,9 +77,21 @@ namespace FastSocietyManagementSystem.Services
                 );
         }
 
-        public bool IsMembershipRequestExists(int studentId, int societyId)
+        /// <summary>
+        /// Checks whether the student already has
+        /// an existing membership request
+        /// for the selected society.
+        /// </summary>
+        public bool IsMembershipRequestExists(
+            int studentId,
+            int societyId
+        )
         {
-            return _membershipRepository.IsMembershipRequestExists(studentId, societyId);
+            return _membershipRepository
+                .IsMembershipRequestExists(
+                    studentId,
+                    societyId
+                );
         }
     }
 }
